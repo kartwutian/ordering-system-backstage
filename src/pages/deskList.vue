@@ -13,8 +13,14 @@
                 prop="deskName">
             </el-table-column>
             <el-table-column
-                label="二维码"
-                prop="deskMaterielPicture">
+                label="二维码" width="160">
+                <template slot-scope="scope">
+                    <el-button
+                        size="small"
+                        type="primary"
+                        @click="handleOpenView(scope.$index, scope.row)">查看</el-button>
+                    <a class="el-button el-button--primary el-button--small" style="text-decoration: none;" :download="scope.row.deskMaterielPicture" :href="scope.row.deskMaterielPicture">下载</a>
+                </template>
             </el-table-column>
             <el-table-column label="操作" width="160">
                 <template slot-scope="scope">
@@ -172,6 +178,20 @@
                         message: '已取消删除'
                     });
                 });
+            },
+            handleOpenView(index,row){
+                console.log(row)
+                window.open(row.deskMaterielPicture)
+            },
+            handleDownload(index,row){
+                console.log(row)
+                var oForm = document.createElement('form')
+                oForm.setAttribute('method','get')
+                oForm.setAttribute('action',row.deskMaterielPicture)
+
+                document.body.appendChild(oForm);
+                //提交表单，实现下载
+                oForm.submit();
             }
 
         }

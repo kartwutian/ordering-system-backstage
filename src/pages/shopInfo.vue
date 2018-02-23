@@ -1,6 +1,6 @@
 <template>
     <div class="shop__info">
-        <template v-if="shopInfo.toString() !== '{}' ">
+        <template v-if="shopInfo.cnName !== null ">
             <el-row type="flex" justify="space-between">
                 <div></div>
                 <el-col :span="4">
@@ -42,7 +42,11 @@
                 <el-col :span="16">{{ shopInfo.beginTime }}--{{shopInfo.endTime}}</el-col>
             </el-row>
         </template>
-
+        <template v-else="shopInfo.cnName !== null">
+            <div>
+                还没填写店铺信息
+            </div>
+        </template>
     </div>
 </template>
 
@@ -68,12 +72,16 @@
                 }
             },
             handleShopInfo(data) {
-                data.logo = window.config.DOMAIN + data.logo
-                data.album = JSON.parse(data.album)
-                data.album = data.album.map(function (item) {
-                    return window.config.DOMAIN + item
+                if( data.logo ){
+                    data.logo = window.config.DOMAIN + data.logo
+                }
+                if( data.album ){
+                    data.album = JSON.parse(data.album)
+                    data.album = data.album.map(function (item) {
+                        return window.config.DOMAIN + item
 
-                })
+                    })
+                }
                 this.shopInfo = data
 //                console.log(data.album)
             }
